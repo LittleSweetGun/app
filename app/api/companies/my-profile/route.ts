@@ -1,18 +1,7 @@
 import postgres from "postgres";
 
 export async function POST(request: Request) {
-  const {
-    headline,
-    designation,
-    address,
-    country,
-    city,
-    phoneCountryCode,
-    phoneNumber,
-    email,
-    telegram,
-    details,
-  } = await request.json();
+  const dataForm = await request.json();
 
   const sql = postgres(process.env.DATABASE_URL || "", {
     ssl: {
@@ -34,16 +23,16 @@ export async function POST(request: Request) {
         telegram,
         details
       ) VALUES (
-        ${headline},
-        ${designation},
-        ${address},
-        ${country},
-        ${city},
-        ${phoneCountryCode},
-        ${phoneNumber},
-        ${email},
-        ${telegram},
-        ${details}
+        ${dataForm.headline},
+        ${dataForm.designation},
+        ${dataForm.address},
+        ${dataForm.country},
+        ${dataForm.city},
+        ${dataForm.phoneCountryCode},
+        ${dataForm.phoneNumber},
+        ${dataForm.email},
+        ${dataForm.telegram},
+        ${dataForm.details}
       );
     `;
 

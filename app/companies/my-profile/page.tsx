@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useState, FormEvent } from "react";
+import toast from "react-hot-toast";
 import DragAndDropFile from "../../components/drag-and-drop-file";
 import { Button } from "../../components/button";
-import toast from "react-hot-toast";
 
 interface FileData {
   name: string;
@@ -19,27 +19,30 @@ export default function MyProfile() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    const formData = {
-      headline: e.currentTarget["headline"].value,
-      designation: e.currentTarget["designation"].value,
-      address: e.currentTarget["address"].value,
-      country: e.currentTarget.country.value,
-      city: e.currentTarget.city.value,
-      phoneCountryCode: e.currentTarget["phone-country-code"].value,
-      phoneNumber: e.currentTarget["phone-number"].value,
-      email: e.currentTarget.email.value,
-      telegram: e.currentTarget.telegram.value,
-      details: e.currentTarget["details"].value,
-    };
 
+    setIsLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    const dataForm = {
+      headline: formData.get("headline"),
+      designation: formData.get("designation"),
+      address: formData.get("address"),
+      country: formData.get("country"),
+      city: formData.get("city"),
+      phoneCountryCode: formData.get("phone-country-code"),
+      phoneNumber: formData.get("phone-number"),
+      email: formData.get("email"),
+      telegram: formData.get("telegram"),
+      details: formData.get("details"),
+    };
     // TODO: POST formData to the server with fetch
     const res = await fetch("/api/companies/my-profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(dataForm),
     });
 
     const data = await res.json();
@@ -48,7 +51,7 @@ export default function MyProfile() {
     if (!res.ok) {
       throw new Error(data.message || "Something went wrong!");
     } else {
-      alert("Profile Saved!");
+      toast.success("Profile Saved!");
     }
   };
 
@@ -83,6 +86,7 @@ export default function MyProfile() {
                 className="form-control block w-full px-4 py-2 text-base font-normal text-gray-600 bg-white bg-clip-padding border border-solid border-[#FFC905] rounded-lg hover:shadow-lg transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-[#FF8C05] focus:outline-none"
                 placeholder="Describe your company in a few words?"
                 required
+                maxLength={255}
                 rows={5}
               />
             </div>
@@ -101,6 +105,7 @@ export default function MyProfile() {
                   name="designation"
                   type="text"
                   required
+                  maxLength={100}
                 />
               </div>
               <div className="flex-1">
@@ -116,6 +121,7 @@ export default function MyProfile() {
                   name="address"
                   type="text"
                   required
+                  maxLength={100}
                 />
               </div>
             </div>
@@ -132,6 +138,8 @@ export default function MyProfile() {
                   placeholder="Country"
                   type="text"
                   name="country"
+                  required
+                  maxLength={100}
                 />
               </div>
               <div className="flex-1">
@@ -146,6 +154,8 @@ export default function MyProfile() {
                   placeholder="City"
                   type="text"
                   name="city"
+                  required
+                  maxLength={100}
                 />
               </div>
             </div>
@@ -157,12 +167,19 @@ export default function MyProfile() {
                 >
                   Phone Country Code
                 </label>
-                <input
-                  className="form-control block w-full px-4 py-2 text-base font-normal text-gray-600 bg-white bg-clip-padding border border-solid border-[#FFC905] rounded-lg hover:shadow-lg transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-[#FF8C05] focus:outline-none"
-                  placeholder="Phone Country Code"
-                  type="text"
-                  name="phone-country-code"
-                />
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span className="text-gray-500 sm:text-sm">+</span>
+                  </div>
+                  <input
+                    className="form-control block w-full px-10 py-2 text-base font-normal text-gray-600 bg-white bg-clip-padding border border-solid border-[#FFC905] rounded-lg hover:shadow-lg transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-[#FF8C05] focus:outline-none pl-10"
+                    placeholder="Phone Country Code"
+                    type="number"
+                    name="phone-country-code"
+                    required
+                    maxLength={10}
+                  />
+                </div>
               </div>
               <div className="flex-1">
                 <label
@@ -176,6 +193,7 @@ export default function MyProfile() {
                   placeholder="Phone Number"
                   type="number"
                   required
+                  maxLength={20}
                   name="phone-number"
                 />
               </div>
@@ -193,6 +211,7 @@ export default function MyProfile() {
                   placeholder="Email"
                   type="email"
                   required
+                  maxLength={255}
                   name="email"
                 />
               </div>
@@ -207,6 +226,7 @@ export default function MyProfile() {
                   className="form-control block w-full px-4 py-2 text-base font-normal text-gray-600 bg-white bg-clip-padding border border-solid border-[#FFC905] rounded-lg hover:shadow-lg transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-[#FF8C05] focus:outline-none"
                   placeholder="Telegram"
                   type="text"
+                  maxLength={255}
                   name="telegram"
                 />
               </div>
@@ -223,17 +243,10 @@ export default function MyProfile() {
                 className="form-control block w-full px-4 py-2 text-base font-normal text-gray-600 bg-white bg-clip-padding border border-solid border-[#FFC905] rounded-lg hover:shadow-lg transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-[#FF8C05] focus:outline-none"
                 placeholder="Company profile and services..."
                 required
+                maxLength={65000}
                 rows={5}
               />
             </div>
-            {isLoading && (
-              <div>
-                <svg
-                  className="animate-spin h-5 w-5 mr-3 ..."
-                  viewBox="0 0 24 24"
-                ></svg>
-              </div>
-            )}
             <div className="mt-10 text-right">
               {isLoading ? (
                 <button
@@ -248,7 +261,7 @@ export default function MyProfile() {
                   className="my-2 text-base font-semibold bg-[#FFC905] h-14 w-56 rounded-full hover:bg-opacity-80 active:shadow-md transition duration-150 ease-in-out"
                   type="submit"
                 >
-                  Save and Continue
+                  Save
                 </button>
               )}
             </div>
