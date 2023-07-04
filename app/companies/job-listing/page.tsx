@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 
 import JobOffer from "@interfaces/job-offer";
 import JobResult from "./job-result";
@@ -9,16 +9,11 @@ import { AddressContext } from "../../components/context";
 
 export default function JobListing() {
   const [jobOffersData, setJobOffersData] = useState<JobOffer[]>([]);
-  const walletAddress = useContext(AddressContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const jobOffersResponse = await fetch("/api/job-offers", {
-            method: "GET",
-            body: JSON.stringify({ walletAddress }),
-          });
-          
+        const jobOffersResponse = await fetch("/api/companies/job-listing/job-offers");
         if (!jobOffersResponse.ok) {
           throw new Error("Failed to fetch data from the server");
         }
@@ -31,7 +26,7 @@ export default function JobListing() {
     };
 
     fetchData();
-  }, [walletAddress]);
+  }, []);
 
   return (
     <main className="mx-5">

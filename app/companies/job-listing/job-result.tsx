@@ -1,12 +1,18 @@
 "use client";
 
+import { useContext } from "react";
+
+import { AddressContext } from "@/app/components/context";
 import { Card } from "../../components/card";
 import JobOffer from "@interfaces/job-offer";
 
 export default function JobResult({ jobOffers }: { jobOffers: JobOffer[] }) {
+  const walletAddress = useContext(AddressContext);
+  const filteredJobOffers = jobOffers.filter((jobOffer) => jobOffer.walletAddress === walletAddress);
+  console.log(walletAddress, filteredJobOffers);
   return (
     <div className="w-full">
-      {jobOffers.map((jobOffer, index) => (
+      {filteredJobOffers.map((jobOffer, index) => (
         <Card
           key={index}
           type="company"
