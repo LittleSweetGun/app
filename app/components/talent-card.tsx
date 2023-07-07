@@ -65,44 +65,47 @@ export const TalentProfile: FC<TalentProfileProps> = ({
 }) => {
   return (
     <div className="container mx-auto py-8">
-      <div className="flex items-center justify-center">
-        <img src={image} alt="Talent" className="w-24 h-24 rounded-full" />
-        <h1 className="text-3xl font-bold ml-4">
+      <div className="flex">
+        <img src={image} alt="Talent" className="w-40 h-40 rounded-full" />
+        <div className="flex flex-col mt-6 ml-6">
+        <h1 className="text-3xl font-bold items-center justify-center">
           {firstName} {lastName}
         </h1>
-      </div>
-      <h2 className="text-xl font-bold mt-2">{jobHeadline}</h2>
-      <div className="mt-2">
+        <h2 className="text-xl font-bold mt-2">{jobHeadline}</h2>
         <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-500">
           {website}
         </a>
-      </div>
-      <div className="mt-4">
         <p>
-          <span className="font-bold">Location:</span> {country}, {city}
+          {country}, {city}
         </p>
+      </div>
       </div>
       <div className="mt-8">
         <h2 className="text-xl font-bold">Description</h2>
-        <p className="mt-2">{description}</p>
+        <p className="mt-2 ml-6">{description}</p>
       </div>
       <div className="mt-8">
         <h2 className="text-xl font-bold">Skills</h2>
-        <ul className="list-disc list-inside mt-2">
-          {skills.map((skill, index) => (
-            <li key={index}>{skill}</li>
-          ))}
-        </ul>
+        <div className="flex flex-wrap mt-4 ml-6">
+            {skills.map((skill, index) => (
+              <div
+                key={index}
+                className="px-3 py-1 mb-2 mr-2 rounded-full bg-amber-100"
+              >
+                <span className="flex items-center">{skill}</span>
+              </div>
+            ))}
+          </div>
       </div>
       <div className="mt-8">
-        <h2 className="text-xl font-bold">About Work</h2>
-        <p className="mt-2">{aboutWork}</p>
+        <h2 className="text-xl font-bold">Looking for</h2>
+        <p className="mt-2 ml-6">{aboutWork}</p>
       </div>
       <div className="mt-8">
         <h2 className="text-xl font-bold">Experiences</h2>
         {experiences.map((experience, index) => (
-          <div key={index} className="mt-4">
-            <h3 className="text-lg font-bold">{experience.title}</h3>
+          <div key={index} className="mt-4 ml-6">
+            <h3 className="text-lg font-bold border-b">{experience.title}</h3>
             <p className="text-gray-500">
               {experience.company} | {experience.location} | {experience.startDate} - {experience.endDate}
             </p>
@@ -116,8 +119,8 @@ export const TalentProfile: FC<TalentProfileProps> = ({
       <div className="mt-8">
         <h2 className="text-xl font-bold">Studies</h2>
         {studies.map((study, index) => (
-          <div key={index} className="mt-4">
-            <h3 className="text-lg font-bold">{study.degree}</h3>
+          <div key={index} className="mt-4 ml-6">
+            <h3 className="text-lg font-bold border-b">{study.degree}</h3>
             <p className="text-gray-500">
               {study.field} | {study.school} | {study.location} | {study.startDate} - {study.endDate}
             </p>
@@ -130,6 +133,7 @@ export const TalentProfile: FC<TalentProfileProps> = ({
       </div>
       <div className="mt-8">
         <h2 className="text-xl font-bold">Contact</h2>
+        <div className="ml-6">
         <p className="mt-2">
           <span className="font-bold">Phone:</span> {contact.phoneCountryCode} {contact.phoneNumber}
         </p>
@@ -139,6 +143,7 @@ export const TalentProfile: FC<TalentProfileProps> = ({
         <p className="mt-2">
           <span className="font-bold">Telegram:</span> {contact.telegram}
         </p>
+        </div>
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ export default function TalentInformation() {
   return (
     <div>
 <TalentProfile
-  image="path/to/image"
+  image="/img/talent_avatar.png"
   firstName="John"
   lastName="Doe"
   jobHeadline="Web Developer"
