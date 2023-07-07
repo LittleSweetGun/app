@@ -1,12 +1,8 @@
 "use client";
-
-import { useEffect, useState } from 'react';
+//TODO update with actual data
+// import { useEffect, useState } from 'react';
 
 import { TalentProfile } from "../../../components/talent-card";
-
-interface Talent {
-  // Talent interface definition here
-}
 
 export default function TalentInformation() {
  /* const [talentsData, setTalentsData] = useState<Talent[]>([]);
