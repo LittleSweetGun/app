@@ -8,8 +8,8 @@ import JobResult from "./job-result";
 import CompaniesResult from "./companies-result";
 
 export default function JobListing() {
-  const [jobOffersData, setJobOffersData] = useState<JobOffer[]>([]);
-  const [companiesData, setCompaniesData] = useState<CompanyProfile[]>([]);
+  const [jobOffers, setJobOffers] = useState<JobOffer[]>([]);
+  const [companiesProfile, setCompaniesProfile] = useState<CompanyProfile[]>([]);
   
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function JobListing() {
         }
 
         const jobOffers = await jobOffersResponse.json();
-        setJobOffersData(jobOffers);
+        setJobOffers(jobOffers);
 
         // fetch companies
         const companiesResponse = await fetch("/api/companies/job-listing/companies-info");
@@ -30,7 +30,7 @@ export default function JobListing() {
           throw new Error("Failed to fetch companies from the server");
         }
         const companies = await companiesResponse.json();
-        setCompaniesData(companies);
+        setCompaniesProfile(companies);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -44,12 +44,12 @@ export default function JobListing() {
       <section>
         <div className="flex flex-col md:flex-row">
           <div className="flex flex-row w-full md:flex-col md:w-2/6">
-            <CompaniesResult companiesProfile={companiesData} />
+            <CompaniesResult companiesProfile={companiesProfile} />
           </div>
           <div className="box-border flex flex-col w-full p-5 mt-10 bg-white border-l-2 border-r-2 shadow-xl md:w-4/6 bg-blend-darken shadow-gray-300 rounded-3xl md:mx-2 border-radius">
             <h1 className="text-2xl font-bold">Job listing</h1>
             <div className="flex flex-col">
-              <JobResult jobOffers={jobOffersData} />
+              <JobResult jobOffers={jobOffers} />
             </div>
           </div>
         </div>

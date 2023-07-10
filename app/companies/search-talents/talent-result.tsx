@@ -30,7 +30,7 @@ export default function TalentResult({ talents }: { talents: Talent[] }) {
             countryFlag="/img/country_flag.png" // TODO: create flag table
             city={talent.city}
             rate={talent.rate}
-            currency="GHV" //TODO : modify format of {talent.currency}
+            currency="GHV" // TODO : modify format of {talent.currency}
             description={talent.jobHeadline}
             skills={talent.skills}
             buttonText="Connect"

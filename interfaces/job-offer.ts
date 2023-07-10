@@ -4,7 +4,7 @@ interface JobOffer {
     title: string;
     postedBy: string;
     postedOn: string;
-    jobDescription: string;
+    description: string;
     duration: string;
     country: string;
     countryFlag: string;

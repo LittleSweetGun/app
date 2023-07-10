@@ -11,6 +11,7 @@ export async function GET() {
     try {
       const companies = await sql`SELECT * FROM goodhive.companies`;
       const formattedCompanies = companies.map((item) => ({
+        id: item.id,
         headline: item.headline,
         designation: item.designation,
         address: item.address,
@@ -24,7 +25,7 @@ export async function GET() {
         walletAddress: item.wallet_address,
         imageUrl: item.image_url,
       }));
-      return new Response(JSON.stringify(formattedCompanies)); //
+      return new Response(JSON.stringify(formattedCompanies));
     } catch (error) {
       console.error("Error fetching data:", error);
       return new Response(JSON.stringify({ message: "Error fetching data" }), {

@@ -1,4 +1,5 @@
 interface CompanyProfile {
+    id: string;
     designation: string;
     imageUrl: string;
     website: string;

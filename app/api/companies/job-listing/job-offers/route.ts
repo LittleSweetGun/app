@@ -21,7 +21,7 @@ export async function GET() {
         walletAddress: item.wallet_address,
       }));
 
-      return new Response(JSON.stringify(formattedJobs)); //
+      return new Response(JSON.stringify(formattedJobs));
     } catch (error) {
       console.error("Error fetching job offers:", error);
 

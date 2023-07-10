@@ -26,7 +26,7 @@ export default function JobResult({ jobOffers }: { jobOffers: JobOffer[] }) {
           city="City" //TODO: connect job_offers table to companies table
           rate={jobOffer.rate}
           currency={jobOffer.currency}
-          description={jobOffer.jobDescription}
+          description={jobOffer.description}
           skills={jobOffer.skills}
           buttonText="Apply"
           // escrowAmount={jobOffer.escrowAmount} Add escrowAmount to job_offers table
