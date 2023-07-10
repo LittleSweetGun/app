@@ -61,6 +61,12 @@ export default function MyProfile() {
     e.preventDefault();
     setIsLoading(true);
 
+    if (!walletAddress) {
+      toast("Connect web3 wallet first to save your profile")
+
+      return
+    }
+
     const formData = new FormData(e.currentTarget);
 
     const dataForm = {
@@ -80,10 +86,14 @@ export default function MyProfile() {
       skills: selectedSkills,
       imageUrl,
       walletAddress,
-      //todo: add is remote only
+      //todo: add is remote only (from checkbox)
     };
 
-    const profileResponse = await fetch("/api/talents/my-profile", {
+    const isExistsResponse = await fetch(`/api/talents/my-profile/${walletAddress}?isExists`);
+    const { isExists } = await isExistsResponse.json();
+
+    if (!isExists) {  
+    const createProfileResponse = await fetch("/api/talents/my-profile/create-profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,14 +103,30 @@ export default function MyProfile() {
 
     setIsLoading(false);
 
-    if (!profileResponse.ok) {
+    if (!createProfileResponse.ok) {
       toast.error("Something went wrong!");
     } else {
       toast.success("Profile Saved!");
     }
   };
 
-  //TODO: Put the following code in a Autosuggest Input component
+  if (isExists) { 
+    const updateProfileResponse = await fetch(`/api/talents/${walletAddress}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataForm),
+      });
+
+      setIsLoading(false);
+
+      if (!updateProfileResponse.ok) {
+        toast.error("Something went wrong!");
+      } else {
+        toast.success("Profile Updated!");
+      }
+    }
+  }
+
   const AutoSuggestInput = () => {
     const [inputValue, setInputValue] = useState("");
 
