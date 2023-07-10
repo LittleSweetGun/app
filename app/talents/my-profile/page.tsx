@@ -387,7 +387,7 @@ export default function MyProfile() {
                   htmlFor="rate"
                   className="inline-block ml-3 text-base text-black form-label"
                 >
-                  Rate (in $)
+                  Rate (in USD)
                 </label>
                 <input
                   className="form-control block w-full px-4 py-2 text-base font-normal text-gray-600 bg-white bg-clip-padding border border-solid border-[#FFC905] rounded-full hover:shadow-lg transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-[#FF8C05] focus:outline-none"
